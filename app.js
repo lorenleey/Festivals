@@ -8,11 +8,14 @@ const altura = "600px";
 async function cargarEventos() {
   eventList.innerHTML = "<li class='loading'>Cargando eventos...</li>";
   eventDetails.innerHTML = "<p>Esperando selección...</p>";
+console.log("API_KEY:", API_KEY);
 
-  const url = `https://app.ticketmaster.com/discovery/v2/events.json
-?apikey=${API_KEY}
-&keyword=Festival
-&classificationName=Music`;
+
+  const url =
+  "https://app.ticketmaster.com/discovery/v2/events.json" +
+  `?apikey=${API_KEY}` +
+  "&keyword=Festival" +
+  "&classificationName=Music";
 
   try {
 
@@ -20,6 +23,9 @@ async function cargarEventos() {
     const data = await response.json();
 
     rawJSON = data;
+    console.log("Respuesta TM:", data);
+console.log("Total:", data?.page?.totalElements);
+
     if (!data._embedded || !data._embedded.events) {
       eventList.innerHTML = "<li>No se encontraron eventos</li>";
       return;
@@ -245,3 +251,4 @@ function analizar(eventos) {
   console.log("Total de eventos:", total);
   console.log("Distribución por país:", countries);
 }
+
