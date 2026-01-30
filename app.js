@@ -10,16 +10,17 @@ async function cargarEventos() {
   eventDetails.innerHTML = "<p>Esperando selección...</p>";
 console.log("API_KEY:", API_KEY);
 
+const url = new URL("https://app.ticketmaster.com/discovery/v2/events.json");
+url.searchParams.append("apikey", API_KEY);
+url.searchParams.append("keyword", "Festival");
+url.searchParams.append("classificationName", "Music");
 
-  const url =
-  "https://app.ticketmaster.com/discovery/v2/events.json" +
-  `?apikey=${API_KEY}` +
-  "&keyword=Festival" +
-  "&classificationName=Music";
+
 
   try {
 
-    const response = await fetch("https://corsproxy.io/?" + encodeURIComponent(url)); // AJAX
+const response = await fetch(
+  "https://corsproxy.io/?" + encodeURIComponent(url.toString()));
     const data = await response.json();
 
     rawJSON = data;
@@ -251,4 +252,5 @@ function analizar(eventos) {
   console.log("Total de eventos:", total);
   console.log("Distribución por país:", countries);
 }
+
 
