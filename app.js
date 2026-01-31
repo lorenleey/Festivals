@@ -82,7 +82,7 @@ function crearNodoJSON(key, value, esRaiz = false) {
       : Object.keys(value).length > 0
   );
 
-  // 🎨 Clases según tipo
+  //  Clases según tipo
   if (esRaiz) {
     node.classList.add("raiz");
   } else if (tieneHijos) {
@@ -91,11 +91,11 @@ function crearNodoJSON(key, value, esRaiz = false) {
     node.classList.add("hoja");
   }
 
-  // 🧩 Cabecera
+  //  Cabecera
   const header = document.createElement("div");
   header.className = "node-header";
 
-  // ▶ Flecha SOLO si hay hijos
+  //  Flecha SOLO si hay hijos
   if (tieneHijos) {
     const arrow = document.createElement("span");
     arrow.className = "arrow";
@@ -111,7 +111,7 @@ function crearNodoJSON(key, value, esRaiz = false) {
   header.appendChild(label);
   node.appendChild(header);
 
-  // 👶 Hijos
+  //  Hijos
   if (tieneHijos) {
     const children = document.createElement("div");
     children.className = "children";
@@ -128,7 +128,7 @@ function crearNodoJSON(key, value, esRaiz = false) {
 
     node.appendChild(children);
 
-    // 🔽 Colapsar
+    // Colapsar
     header.onclick = () => {
       node.classList.toggle("collapsed");
     };
@@ -144,17 +144,22 @@ function crearNodoJSON(key, value, esRaiz = false) {
 
 
 function mostrarJS(data, rawJSON) {
-  const download = document.createElement('div');
-  download.innerHTML = "Descargar JSON";
+  eventDetails.innerHTML = ""; // limpiar antes
+
+  // Botón descargar
+  const download = document.createElement("button");
+  download.textContent = "Descargar JSON";
   download.onclick = () => downloadJSON(rawJSON);
+
+  // JSON en texto plano
+  const pre = document.createElement("pre");
+  pre.textContent = JSON.stringify(data, null, 2);
+  pre.style.padding = "10px";
+
   eventDetails.appendChild(download);
-
-  eventDetails.innerHTML = JSON.stringify(data, null, 2);
-  eventDetails.style.padding= "10px";
-
+  eventDetails.appendChild(pre);
+  eventDetails.style.marginTop = "3px";
 }
-
-
 function downloadJSON(rawJSON) {
   if (!rawJSON) {
     alert("No hay datos para descargar");
@@ -171,7 +176,6 @@ function downloadJSON(rawJSON) {
   link.download = "ticketmaster_response.json";
   link.click();
 }
-
 function showDetails(event) {
   const venue = event._embedded?.venues?.[0];
   let estado = "No a la venta";
@@ -247,5 +251,6 @@ function analizar(eventos) {
   console.log("Total de eventos:", total);
   console.log("Distribución por país:", countries);
 }
+
 
 
