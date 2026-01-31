@@ -8,6 +8,7 @@ const altura = "600px";
 async function cargarEventos() {
   eventList.innerHTML = "<li class='loading'>Cargando eventos...</li>";
   eventDetails.innerHTML = "<p>Esperando selección...</p>";
+console.log("API_KEY:", API_KEY);
 
 const url = new URL("https://app.ticketmaster.com/discovery/v2/events.json");
 url.searchParams.append("apikey", API_KEY);
@@ -17,6 +18,7 @@ url.searchParams.append("classificationName", "Music");
 try {
   const response = await fetch(url.toString());
   const data = await response.json();
+
     rawJSON = data;
     console.log("Respuesta TM:", data);
 console.log("Total:", data?.page?.totalElements);
@@ -66,60 +68,57 @@ function mostrarArbol(obj) {
   container.className = "xml-tree";
 
   container.appendChild(crearNodoJSON("root", obj, true));
-
   eventDetails.appendChild(container);
 }
-
-
-
 
 function crearNodoJSON(key, value, esRaiz = false) {
   const node = document.createElement("div");
   node.classList.add("nodo");
 
-  // 👉 Tipo de nodo
+  const esObjeto = typeof value === "object" && value !== null;
+  const tieneHijos = esObjeto && (
+    Array.isArray(value)
+      ? value.length > 0
+      : Object.keys(value).length > 0
+  );
+
+  // 🎨 Clases según tipo
   if (esRaiz) {
     node.classList.add("raiz");
-  } else if (key.startsWith("_")) {
-    node.classList.add("atributo");
-  } else if (typeof value === "object" && value !== null) {
+  } else if (tieneHijos) {
     node.classList.add("elemento");
   } else {
-    node.classList.add("texto");
+    node.classList.add("hoja");
   }
 
-  // 👉 Cabecera
+  // 🧩 Cabecera
   const header = document.createElement("div");
   header.className = "node-header";
 
-  const arrow = document.createElement("span");
-  arrow.className = "arrow";
-
-  const esObjeto = typeof value === "object" && value !== null;
-  arrow.textContent = esObjeto ? "▼" : "•";
-
-  const label = document.createElement("span");
-
-  if (esObjeto) {
-    label.innerHTML = `<strong>${key}</strong>`;
-  } else {
-    label.innerHTML = `<strong>${key}</strong>: ${value}`;
+  // ▶ Flecha SOLO si hay hijos
+  if (tieneHijos) {
+    const arrow = document.createElement("span");
+    arrow.className = "arrow";
+    arrow.textContent = "▼";
+    header.appendChild(arrow);
   }
 
-  header.appendChild(arrow);
+  const label = document.createElement("span");
+  label.innerHTML = esObjeto
+    ? `<strong>${key}</strong>`
+    : `<strong>${key}</strong>: ${value}`;
+
   header.appendChild(label);
   node.appendChild(header);
 
-  // 👉 Hijos
-  if (esObjeto) {
+  // 👶 Hijos
+  if (tieneHijos) {
     const children = document.createElement("div");
     children.className = "children";
 
     if (Array.isArray(value)) {
       value.forEach((item, index) => {
-        children.appendChild(
-          crearNodoJSON(`${key}[${index}]`, item)
-        );
+        children.appendChild(crearNodoJSON(`[${index}]`, item));
       });
     } else {
       for (const k in value) {
@@ -129,6 +128,7 @@ function crearNodoJSON(key, value, esRaiz = false) {
 
     node.appendChild(children);
 
+    // 🔽 Colapsar
     header.onclick = () => {
       node.classList.toggle("collapsed");
     };
@@ -136,6 +136,7 @@ function crearNodoJSON(key, value, esRaiz = false) {
 
   return node;
 }
+
 
 /** La API devuelve JSON, pero el árbol representa una abstracción visual del 
  * modelo XML DOM, clasificando los nodos según su rol. */
@@ -246,6 +247,5 @@ function analizar(eventos) {
   console.log("Total de eventos:", total);
   console.log("Distribución por país:", countries);
 }
-
 
 
