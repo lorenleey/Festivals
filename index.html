@@ -53,7 +53,7 @@
     }
 
     footer {
-       grid-area: footer;
+      grid-area: footer;
       text-align: center;
       padding: 5px 5px;
       color: #734d37;
@@ -63,19 +63,6 @@
       background-color: #f5dcde;
     }
 
-    @media (max-width: 900px) {
-      body {
-        grid-template-areas: "header" "menu" "content" "footer";
-        grid-template-columns: 1fr;
-        grid-template-rows: auto auto auto auto;
-      }
-
-      menu,
-      content {
-        height: auto;
-        /* En móvil no queremos alturas forzadas */
-      }
-    }
 
     content {
       overflow-y: auto;
@@ -179,57 +166,65 @@
       text-align: left;
       max-width: 100%;
       padding-left: 20px;
+      font-family: monospace;
     }
 
-
     .nodo {
-      margin-left: 0;
-      font-family: monospace;
-      display: block;
-
+      margin-left: 10px;
     }
 
     .node-header {
       display: inline-flex;
       align-items: center;
       gap: 6px;
-      padding: 6px 10px;
+      padding: 6px 12px;
       margin: 4px 0;
       border-radius: 14px;
       cursor: pointer;
+      user-select: none;
     }
 
+    /* 🌱 RAÍZ */
     .raiz .node-header {
       border: 3px solid #b2c464;
-      color: #b2c464;
+      color: #6b7a2e;
+      background-color: #f8faee;
+      font-weight: bold;
     }
 
+    /* 🌿 NODOS CON HIJOS */
     .elemento .node-header {
-      border: 2px solid white;
-      color: white;
+      border: 2px solid rgb(120, 169, 215);
+      color: rgb(70, 120, 170);
+      background-color: #eef4fb;
     }
 
-    .atributo .node-header {
+    /* 🍃 HOJAS (sin hijos) */
+    .hoja .node-header {
       border: 2px solid #e1939a;
-      color: #e1939a;
+      color: #b75a63;
+      background-color: #fdf0f2;
+      cursor: default;
     }
 
-    .atributo:hover .node-header:hover{
-      background-color: #f5dcde;
+    /* ▶ Flecha */
+    .arrow {
+      font-size: 12px;
+      transition: transform 0.2s ease;
     }
 
-  
-
-    .children {
-      margin-left: 20px;
-    }
-
+    /* 🔽 Colapsado */
     .collapsed>.children {
       display: none;
     }
 
-    .arrow {
-      width: 14px;
+    .collapsed>.node-header .arrow {
+      transform: rotate(-90deg);
+    }
+
+    /* Hijos indentados */
+    .children {
+      margin-left: 20px;
     }
   </style>
 </head>
