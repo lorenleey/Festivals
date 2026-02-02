@@ -67,7 +67,6 @@
 
 
     content {
-      overflow-y: auto;
       overflow-x: auto;
 
     }
@@ -178,7 +177,18 @@
       font-family: monospace;
       max-width: 100%;
       overflow-x: auto;
+      overflow-y: auto;
+      box-sizing: border-box;
+
     }
+
+    pre {
+      max-width: 100%;
+      overflow-x: auto;
+      white-space: pre;
+      box-sizing: border-box;
+}
+
 
     .nodo {
       margin-left: 10px;
@@ -193,6 +203,10 @@
       border-radius: 14px;
       cursor: pointer;
       user-select: none;
+      max-width: 100%;
+      word-break: break-word;
+      overflow-wrap: anywhere;
+
     }
 
     .raiz .node-header {
@@ -215,13 +229,11 @@
       cursor: default;
     }
 
-    /* ▶ Flecha */
     .arrow {
       font-size: 12px;
       transition: transform 0.2s ease;
     }
 
-    /* 🔽 Colapsado */
     .collapsed>.children {
       display: none;
     }
@@ -263,4 +275,5 @@
 </body>
 
 </html>
+
 
