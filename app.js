@@ -34,7 +34,11 @@ console.log("Total:", data?.page?.totalElements);
     eventos.forEach(event => {
       const li = document.createElement("li");
       li.textContent = `${event.name} (${event.dates.start.localDate})`;
-      li.onclick = () => showDetails(event);
+      li.onclick = () => {
+        marcarSeleccionado(li);
+        showDetails(event);
+      };
+      
       eventList.appendChild(li);
 
     });
@@ -44,13 +48,19 @@ console.log("Total:", data?.page?.totalElements);
 
     const crudo = document.createElement("li");
     crudo.textContent = 'Texto Crudo de JS';
-    crudo.onclick = () => mostrarJS(data, rawJSON);
+    crudo.onclick = () => {
+      marcarSeleccionado(crudo);
+      mostrarJS(data, rawJSON);
+    };
     eventList.appendChild(crudo);
     analizar(eventos);
 
     const arbol = document.createElement("li");
     arbol.textContent = 'Ver árbol de nodos';
-    arbol.onclick = () => mostrarArbol(rawJSON);
+    arbol.onclick = () => {
+      marcarSeleccionado(arbol);
+      mostrarArbol(rawJSON);
+    };
     eventList.appendChild(arbol);
 
 
@@ -58,6 +68,13 @@ console.log("Total:", data?.page?.totalElements);
     console.error(error);
     eventList.innerHTML = "<li>Error al cargar los datos</li>";
   }
+}
+
+function marcarSeleccionado(li) {
+  document.querySelectorAll("#eventList li")
+    .forEach(item => item.classList.remove("active"));
+
+  li.classList.add("active");
 }
 
 
@@ -251,6 +268,7 @@ function analizar(eventos) {
   console.log("Total de eventos:", total);
   console.log("Distribución por país:", countries);
 }
+
 
 
 
