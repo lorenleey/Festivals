@@ -39,6 +39,7 @@
     menu,
     content {
       background-color: white;
+      height: 100%;
       border: 8px solid #eddfbf;
       border-radius: 30px;
       display: flex;
@@ -50,6 +51,7 @@
       overflow: hidden;
       margin: 0;
       padding-inline-start: 0;
+      overflow-y: auto;
     }
 
     footer {
@@ -93,6 +95,8 @@
 
     }
 
+    
+
     ul {
       list-style: none;
       border: 2px solid rgb(128, 145, 99);
@@ -123,6 +127,12 @@
 
     li:hover {
       background-color: #cad39e;
+    }
+    
+    li.active {
+      background-color: #a7b37a; /* más oscuro */
+      border-color: #5f6f3c;
+      font-weight: bold;
     }
 
     a {
@@ -164,9 +174,10 @@
     .xml-tree {
       align-self: flex-start;
       text-align: left;
-      max-width: 100%;
       padding-left: 20px;
       font-family: monospace;
+      max-width: 100%;
+      overflow-x: auto;
     }
 
     .nodo {
@@ -184,7 +195,6 @@
       user-select: none;
     }
 
-    /* 🌱 RAÍZ */
     .raiz .node-header {
       border: 3px solid #b2c464;
       color: #6b7a2e;
@@ -192,14 +202,12 @@
       font-weight: bold;
     }
 
-    /* 🌿 NODOS CON HIJOS */
     .elemento .node-header {
       border: 2px solid rgb(120, 169, 215);
       color: rgb(70, 120, 170);
       background-color: #eef4fb;
     }
 
-    /* 🍃 HOJAS (sin hijos) */
     .hoja .node-header {
       border: 2px solid #e1939a;
       color: #b75a63;
@@ -255,3 +263,4 @@
 </body>
 
 </html>
+
