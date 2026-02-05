@@ -8,12 +8,12 @@ const altura = "600px";
 async function cargarEventos() {
   eventList.innerHTML = "<li class='loading'>Cargando eventos...</li>";
   eventDetails.innerHTML = "<p>Esperando selección...</p>";
-console.log("API_KEY:", API_KEY);
 
 const url = new URL("https://app.ticketmaster.com/discovery/v2/events.json");
 url.searchParams.append("apikey", API_KEY);
 url.searchParams.append("keyword", "Festival");
 url.searchParams.append("classificationName", "Music");
+url.searchParams.append("size", "30");
 
 try {
   const response = await fetch(url.toString());
@@ -268,6 +268,7 @@ function analizar(eventos) {
   console.log("Total de eventos:", total);
   console.log("Distribución por país:", countries);
 }
+
 
 
 
